@@ -151,10 +151,13 @@ mkdir -p project/{_shared/{characters,backgrounds,voices},ep01/{script,prompts,s
 
 ```
 happy_children/
-├── _shared/
-│   ├── characters/    R1-Michael  R2-王奶奶  R3-眼镜  R4-眼镜  R5-轮椅  R6-书包  R9-Shane  R10-Luke
-│   ├── backgrounds/   R7_street_bg.png
-│   └── voices/        各角色声音克隆参考音频 (21 files)
+├── _resources/
+│   ├── shared/
+│   │   ├── characters/    R1-Michael  R2-王奶奶  R9-Shane  R10-Luke 等
+│   │   ├── backgrounds/   R7_street_bg.png
+│   │   └── voices/        各角色声音克隆参考音频
+│   ├── comfy_ui_api/      所有 API JSON 模板 (Qwen/Wan/Flux/Ace-Step)
+│   └── scripts/            提交/监控/管线脚本
 ├── ep01/
 │   ├── script.md      EP01 剧本+分镜
 │   ├── workflows/     9个 Wan API JSON payload
@@ -181,6 +184,7 @@ NAS: `TopOnSky@192.168.178.20:/volume1/photo/n8n_workflow/output/happy_children/
 ```bash
 EP=ep03
 mkdir -p $EP/{prompts,workflows,source,video,voice,bgm,final}
+# 检查 _resources/shared/ 中已有资产，不重复生成
 ```
 
 ---
@@ -292,17 +296,17 @@ Pixar-style 3D animation, warm morning sunlight, vibrant colors, 1280x720, high 
 ### Phase 0: 项目初始化
 
 ```bash
-# 每集独立目录 + 共享资产
-mkdir -p project/_shared/{characters,backgrounds,voices}
+# 每集独立目录 + 共享资源
+mkdir -p project/_resources/{shared/{characters,backgrounds,voices},comfy_ui_api/{qwen-3ref,wan22-gguf,flux-klein,ace-step,index-tts2},scripts}
 mkdir -p project/epXX/{prompts,workflows,source,video,voice,bgm,final}
 ```
 
 **目录结构**：
 | 目录 | 内容 | 生命周期 |
 |------|------|----------|
-| `_shared/characters/` | 角色参考图（R1_Michael.png 等） | 跨集复用 |
-| `_shared/backgrounds/` | 场景背景图 | 跨集复用 |
-| `_shared/voices/` | 声音克隆参考音频 | 跨集复用 |
+| `_resources/shared/characters/` | 角色参考图（R1_Michael.png 等） | 跨集复用 |
+| `_resources/shared/backgrounds/` | 场景背景图 | 跨集复用 |
+| `_resources/shared/voices/` | 声音克隆参考音频 | 跨集复用 |
 | `epXX/script.md` | 剧本+分镜表 | 每集 |
 | `epXX/prompts/` | `source.md` + `video.md` 提示词归档 | 每集 |
 | `epXX/workflows/` | ComfyUI API JSON payload 存档 | 每集 |

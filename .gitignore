@@ -1,21 +1,11 @@
-# Binary media assets (stored on NAS)
+# 二进制大文件 — 靠 NAS 备份，不进 Git
+*.png
 *.mp4
-*.mp3
 *.wav
 *.flac
-*.png
+*.mp3
+*.ogg
 *.jpg
-
-# System files
-.DS_Store
-._*
-
-# Old flat structure leftovers
-00-*/
-01-*/
-02-*/
-03-*/
-04-*/
-05-*/
-06-*/
-07-*/
+*.jpeg
+*.gif
+*.webp
