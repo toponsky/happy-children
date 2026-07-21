@@ -1,0 +1,26 @@
+{
+  "prompt": {
+    "1": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors", "type": "qwen_image"}},
+    "2": {"class_type": "UNETLoader", "inputs": {"unet_name": "Qwen\\qwen_image_edit_2511_fp8mixed.safetensors", "weight_dtype": "default"}},
+    "3": {"class_type": "VAELoader", "inputs": {"vae_name": "Qwen\\qwen_image_vae.safetensors"}},
+    "4": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["2", 0], "lora_name": "Qwen-Image-Edit\\Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors", "strength_model": 1}},
+    "5": {"class_type": "LoadImage", "inputs": {"image": "R11_fireman_sam.png"}},
+    "6": {"class_type": "LoadImage", "inputs": {"image": "R11_fireman_sam.png"}},
+    "7": {"class_type": "LoadImage", "inputs": {"image": "firestation_bg.png"}},
+    "8": {"class_type": "TextEncodeQwenImageEditPlus", "inputs": {
+      "clip": ["1", 0], "vae": ["3", 0],
+      "image1": ["5", 0], "image2": ["6", 0], "image3": ["7", 0],
+      "prompt": "图像3的消防站前，Sam背对镜头，面向消防站的红色车库门正在往回走。这是远景镜头，消防站建筑占据画面大部分，Sam的背影在画面中很小。保持图像1消防员Sam的黄色消防头盔、深蓝色制服。完全保留图像3消防站背景。"
+    }},
+    "9": {"class_type": "FluxKontextMultiReferenceLatentMethod", "inputs": {"conditioning": ["8", 0], "reference_latents_method": "index_timestep_zero"}},
+    "10": {"class_type": "FluxKontextMultiReferenceLatentMethod", "inputs": {"conditioning": ["8", 0], "reference_latents_method": "index_timestep_zero"}},
+    "11": {"class_type": "ConditioningZeroOut", "inputs": {"conditioning": ["10", 0]}},
+    "12": {"class_type": "EmptySD3LatentImage", "inputs": {"width": 1280, "height": 720, "batch_size": 1}},
+    "13": {"class_type": "KSampler", "inputs": {
+      "model": ["4", 0], "positive": ["9", 0], "negative": ["11", 0], "latent_image": ["12", 0],
+      "seed": 66994, "steps": 8, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple", "denoise": 1.0
+    }},
+    "14": {"class_type": "VAEDecode", "inputs": {"samples": ["13", 0], "vae": ["3", 0]}},
+    "15": {"class_type": "SaveImage", "inputs": {"images": ["14", 0], "filename_prefix": "ep03_shot03"}}
+  }
+}
