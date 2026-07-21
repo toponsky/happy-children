@@ -1,0 +1,21 @@
+# Binary media assets (stored on NAS)
+*.mp4
+*.mp3
+*.wav
+*.flac
+*.png
+*.jpg
+
+# System files
+.DS_Store
+._*
+
+# Old flat structure leftovers
+00-*/
+01-*/
+02-*/
+03-*/
+04-*/
+05-*/
+06-*/
+07-*/
