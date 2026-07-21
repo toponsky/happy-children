@@ -1,0 +1,412 @@
+{
+  "2": {
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "加载VAE"
+    }
+  },
+  "3": {
+    "inputs": {
+      "shift": 5,
+      "model": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "采样算法（SD3）"
+    }
+  },
+  "4": {
+    "inputs": {
+      "shift": 4.99,
+      "model": [
+        "43",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "采样算法（SD3）"
+    }
+  },
+  "5": {
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "加载CLIP"
+    }
+  },
+  "9": {
+    "inputs": {
+      "value": 6
+    },
+    "class_type": "INTConstant",
+    "_meta": {
+      "title": "INT Constant"
+    }
+  },
+  "10": {
+    "inputs": {
+      "value": "a*16+1",
+      "a": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "SimpleMath+",
+    "_meta": {
+      "title": "🔧 Simple Math"
+    }
+  },
+  "12": {
+    "inputs": {
+      "text": "> Pixar-style 3D animation. Wide shot of Fireman Sam in navy blue uniform with yellow reflective stripes, wearing a bright yellow firefighter helmet, standing at a fire station and then walking forward toward the camera. Smooth confident stride, arms swinging gently in sync with each step, posture upright, walking in a straight line from the distance all the way forward. No limp, no stagger. Warm morning sunlight. No other people",
+      "clip": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "13": {
+    "inputs": {
+      "image": "ep03_shot01.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "15": {
+    "inputs": {
+      "width": 1280,
+      "height": 720,
+      "upscale_method": "nearest-exact",
+      "keep_proportion": "crop",
+      "pad_color": "0, 0, 0",
+      "crop_position": "top",
+      "divisible_by": 2,
+      "device": "cpu",
+      "image": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "ImageResizeKJv2",
+    "_meta": {
+      "title": "Resize Image v2"
+    }
+  },
+  "16": {
+    "inputs": {
+      "samples": [
+        "19",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "18": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 386225477724539,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 3,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "44",
+        0
+      ],
+      "negative": [
+        "44",
+        2
+      ],
+      "latent_image": [
+        "44",
+        3
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "K采样器（高级）"
+    }
+  },
+  "19": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 503779656348232,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "beta",
+      "start_at_step": 3,
+      "end_at_step": 1000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "44",
+        1
+      ],
+      "negative": [
+        "44",
+        2
+      ],
+      "latent_image": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "K采样器（高级）"
+    }
+  },
+  "20": {
+    "inputs": {
+      "text": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走,",
+      "clip": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "34": {
+    "inputs": {
+      "frame_rate": 16,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "16",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "40": {
+    "inputs": {
+      "sage_attention": "auto",
+      "allow_compile": false,
+      "model": [
+        "58",
+        0
+      ]
+    },
+    "class_type": "PathchSageAttentionKJ",
+    "_meta": {
+      "title": "Patch Sage Attention KJ"
+    }
+  },
+  "41": {
+    "inputs": {
+      "enable_fp16_accumulation": true,
+      "model": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ModelPatchTorchSettings",
+    "_meta": {
+      "title": "Model Patch Torch Settings"
+    }
+  },
+  "42": {
+    "inputs": {
+      "sage_attention": "auto",
+      "allow_compile": false,
+      "model": [
+        "57",
+        0
+      ]
+    },
+    "class_type": "PathchSageAttentionKJ",
+    "_meta": {
+      "title": "Patch Sage Attention KJ"
+    }
+  },
+  "43": {
+    "inputs": {
+      "enable_fp16_accumulation": true,
+      "model": [
+        "42",
+        0
+      ]
+    },
+    "class_type": "ModelPatchTorchSettings",
+    "_meta": {
+      "title": "Model Patch Torch Settings"
+    }
+  },
+  "44": {
+    "inputs": {
+      "width": [
+        "15",
+        1
+      ],
+      "height": [
+        "15",
+        2
+      ],
+      "length": [
+        "10",
+        0
+      ],
+      "batch_size": 1,
+      "mode": "NORMAL",
+      "middle_frame_ratio": 0.5,
+      "high_noise_mid_strength": 0.52,
+      "low_noise_start_strength": 0.97,
+      "low_noise_mid_strength": 0,
+      "low_noise_end_strength": 0,
+      "structural_repulsion_boost": 1,
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "20",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ],
+      "start_image": [
+        "15",
+        0
+      ],
+      "end_image": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "WanFirstMiddleLastFrameToVideo",
+    "_meta": {
+      "title": "Wan First-Middle-Last Frame to Video"
+    }
+  },
+  "47": {
+    "inputs": {
+      "image": "ep03_shot02.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "48": {
+    "inputs": {
+      "width": [
+        "15",
+        1
+      ],
+      "height": [
+        "15",
+        1
+      ],
+      "upscale_method": "nearest-exact",
+      "keep_proportion": "crop",
+      "pad_color": "0, 0, 0",
+      "crop_position": "top",
+      "divisible_by": 2,
+      "device": "cpu",
+      "image": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "ImageResizeKJv2",
+    "_meta": {
+      "title": "Resize Image v2"
+    }
+  },
+  "55": {
+    "inputs": {
+      "unet_name": "Wan2.2\\Wan2.2-I2V-A14B-LowNoise-Q8_0.gguf"
+    },
+    "class_type": "UnetLoaderGGUF",
+    "_meta": {
+      "title": "Unet 加载器 (GGUF)"
+    }
+  },
+  "56": {
+    "inputs": {
+      "unet_name": "Wan2.2\\Wan2.2-I2V-A14B-HighNoise-Q8_0.gguf"
+    },
+    "class_type": "UnetLoaderGGUF",
+    "_meta": {
+      "title": "Unet 加载器 (GGUF)"
+    }
+  },
+  "57": {
+    "inputs": {
+      "lora_name": "Wan2.2\\low_noise_model.safetensors",
+      "strength_model": 1,
+      "model": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）"
+    }
+  },
+  "58": {
+    "inputs": {
+      "lora_name": "Wan2.2\\high_noise_model.safetensors",
+      "strength_model": 1,
+      "model": [
+        "56",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）"
+    }
+  }
+}
